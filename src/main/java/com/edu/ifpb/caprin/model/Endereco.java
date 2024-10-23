@@ -1,14 +1,14 @@
 package com.edu.ifpb.caprin.model;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import lombok.Data;
+import org.springframework.data.annotation.Id;
 
 @Entity
-@Data
 public class Endereco {
 
+    @jakarta.persistence.Id
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -26,4 +26,14 @@ public class Endereco {
     private String cidade;
 
     private String estado;
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    // Getters e Setters
 }
