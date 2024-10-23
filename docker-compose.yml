@@ -1,0 +1,14 @@
+version: '3.8'
+
+services:
+
+  postgres:
+    image: postgres:16
+    restart: always
+    container_name: db_caprin
+    environment:
+      POSTGRES_PASSWORD: 123456
+      POSTGRES_DB: caprin
+      POSTGRES_USER: postgres
+    ports:
+      - "5432:5432"
