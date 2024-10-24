@@ -20,5 +20,4 @@ public class Pagamento {
 
     private String estado; // Ex: "PENDENTE", "CONFIRMADO", "CANCELADO"
 
-    // Getters e Setters
 }

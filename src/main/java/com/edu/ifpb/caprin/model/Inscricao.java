@@ -33,9 +33,9 @@ public class Inscricao {
     private Animal animal;
 
     // Método para verificar se a inscrição foi efetivada
-    public boolean isEfetivada() {
-        return pagamento != null && pagamento.getDataConfirmacao() != null;
-    }
+    //public boolean isEfetivada() {
+    //    return pagamento != null && pagamento.getDataConfirmacao() != null;
+    //}
 
     // Getters e Setters
 }
