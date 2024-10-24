@@ -13,9 +13,9 @@ public class AnimalParentesco {
     @Column(name = "registro", nullable = false, unique = true)
     private String registro; 
 
-    @OneToOne(cascade = CascadeType.ALL)  
-    @JoinColumn(name = "parentesco_id", referencedColumnName = "id")  // Chave estrangeira
-    private Parentesco parentesco;  // Relacionamento com a entidade Parentesco
+//    @OneToOne(cascade = CascadeType.ALL)
+//    @JoinColumn(name = "parentesco_id", referencedColumnName = "id")  // Chave estrangeira
+//    private Parentesco parentesco;  // Relacionamento com a entidade Parentesco
 
     @Column(name = "nome", nullable = false)
     private String nome;
@@ -27,7 +27,7 @@ public class AnimalParentesco {
     // Construtor completo
     public AnimalParentesco(String registro, Parentesco parentesco, String nome) {
         this.registro = registro;
-        this.parentesco = parentesco;
+        //this.parentesco = parentesco;
         this.nome = nome;
     }
 }
