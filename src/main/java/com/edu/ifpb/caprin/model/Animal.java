@@ -5,6 +5,7 @@ import lombok.Data;
 import jakarta.persistence.*;
 import java.util.Date;
 
+import java.util.List;
 @Data
 @Entity
 @Table(name = "animal")
@@ -65,6 +66,14 @@ public class Animal {
     @Column(name = "inconsistencia")
     private String inconsistencia;
 
+    // Relacionamento com a entidade Parentesco
+    
+    @OneToMany(mappedBy = "pai")
+    private List<AnimalParentesco> filhospai;
+
+    @OneToMany(mappedBy = "mae")
+    private List<AnimalParentesco> filhosmae;
+    
     // Método para calcular o registro (TOD + TOE)
     public String getRegistro() {
         return this.TOD + this.TOE;

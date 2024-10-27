@@ -1,33 +1,27 @@
 package com.edu.ifpb.caprin.model;
 
+import lombok.Data;
 import jakarta.persistence.*;
 
+
+@Data
 @Entity
-@Table(name = "animal_parentesco")
 public class AnimalParentesco {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;  
+    private String registro;
 
-    @Column(name = "registro", nullable = false, unique = true)
-    private String registro; 
+    @ManyToOne
+    @JoinColumn(name = "parentesco_id")
+    private Parentesco parentesco;
 
-    @OneToOne(cascade = CascadeType.ALL)  
-    @JoinColumn(name = "parentesco_id", referencedColumnName = "id")  // Chave estrangeira
-    private Parentesco parentesco;  // Relacionamento com a entidade Parentesco
-
-    @Column(name = "nome", nullable = false)
     private String nome;
 
-    // Construtor padrão
-    public AnimalParentesco() {
-    }
+    @ManyToOne
+    @JoinColumn(name = "pai_id", nullable = true)
+    private Animal pai;
 
-    // Construtor completo
-    public AnimalParentesco(String registro, Parentesco parentesco, String nome) {
-        this.registro = registro;
-        this.parentesco = parentesco;
-        this.nome = nome;
-    }
+    @ManyToOne
+    @JoinColumn(name = "mae_id", nullable = true)
+    private Animal mae;
 }

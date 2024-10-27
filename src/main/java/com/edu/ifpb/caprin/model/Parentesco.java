@@ -1,24 +1,25 @@
 package com.edu.ifpb.caprin.model;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
+import jakarta.persistence.*;
 
 
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
+@Entity
 public class Parentesco {
 
-    public int pai;
-    public int bisavoPaterna;
-    public int bisavoPaterno;
-    public int bisavoMaterna;
-    public int bisavoMaterno;
-    public int avouPaterna;
-    public int avohPaterno;
-    public int avohMaterna;
-    public int avouMaterno;
-    public int mae;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
+    private int PAI;
+    private int MAE;
+    private int AVO_MATERNO;
+    private int AVOH_MATERNA;
+    private int AVOH_PATERNO;
+    private int AVOU_PATERNA;
+    private int BISAVO_MATERNO;
+    private int BISAVO_MATERNA;
+    private int BISAVO_PATERNO;
+    private int BISAVO_PATERNA;
 }
