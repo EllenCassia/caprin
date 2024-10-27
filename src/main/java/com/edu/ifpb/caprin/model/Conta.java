@@ -1,46 +1,49 @@
 package com.edu.ifpb.caprin.model;
 
+import com.edu.ifpb.caprin.model.Enum.ContaTipo;
+
 import jakarta.persistence.*;
+import lombok.Data;
 
 @Entity
+@Data
+@Table(name = "TB_CONTA")
 public class Conta {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String tipo; // EX: "ADMIN", "ORGANIZADOR", "EXPOSITOR"
+    @Enumerated
+    private ContaTipo tipo; // ADMIN, ORGANIZADOR, EXPOSITOR
 
     @Column(unique = true)
     private String email;
 
+    @Column(nullable = false)
     private String senha;
 
     @Column(unique = true)
     private String cpf;
 
+    @Column(unique = true)
     private String telefoneDDD;
 
+    @Column(unique = true)
     private String telefone;
 
+    @Column(nullable = false)
     private String nome;
 
+    @Column(nullable = false)
     private boolean ativa;
 
-    @ManyToOne
+    @OneToOne
+    @JoinColumn(name = "endereco_id") 
     private Endereco endereco;
 
     @OneToOne(mappedBy = "conta")
     private Expositor expositor;
 
-    // Validação do tipo de conta
-    public void setTipo(String tipo) {
-        if (!tipo.equals("ADMIN") && !tipo.equals("ORGANIZADOR") && !tipo.equals("EXPOSITOR")) {
-            throw new IllegalArgumentException("Tipo de conta inválido");
-        }
-        this.tipo = tipo;
-    }
-
-    // Getters e Setters
 }
 

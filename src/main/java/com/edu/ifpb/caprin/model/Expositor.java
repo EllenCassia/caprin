@@ -1,8 +1,11 @@
 package com.edu.ifpb.caprin.model;
 
 import jakarta.persistence.*;
+import lombok.Data;
 
 @Entity
+@Data
+@Table(name = "TB_EXPOSITOR")
 public class Expositor {
 
     @Id
@@ -22,5 +25,4 @@ public class Expositor {
     @JoinColumn(name = "conta_id")
     private Conta conta;
 
-    // Getters e Setters
 }

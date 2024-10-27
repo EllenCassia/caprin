@@ -1,39 +1,38 @@
 package com.edu.ifpb.caprin.model;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
+import jakarta.persistence.Table;
+import lombok.Data;
+
 import org.springframework.data.annotation.Id;
 
 @Entity
+@Data
+@Table(name = "TB_ENDERECO")
 public class Endereco {
 
-    @jakarta.persistence.Id
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
     private String cep;
 
+    @Column(nullable = false)
     private String logradouro;
 
+    @Column(nullable = false)
     private String numero;
 
     private String complemento;
 
-    private String bairro;
-
+    @Column(nullable = false)
     private String cidade;
 
+    @Column(nullable = false)
     private String estado;
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    // Getters e Setters
 }
