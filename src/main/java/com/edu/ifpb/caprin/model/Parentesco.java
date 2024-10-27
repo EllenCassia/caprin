@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 
 @Data
 @Entity
+@Table(name = "TB_PARENTESCO")
 public class Parentesco {
 
     @Id
