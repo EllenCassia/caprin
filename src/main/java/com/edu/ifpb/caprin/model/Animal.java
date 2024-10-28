@@ -73,6 +73,9 @@ public class Animal {
 
     @OneToMany(mappedBy = "mae")
     private List<AnimalParentesco> filhosmae;
+
+    @OneToMany(mappedBy = "animal", cascade = CascadeType.ALL)
+    private List<Inscricao> inscricoes;
     
     // Método para calcular o registro (TOD + TOE)
     public String getRegistro() {
