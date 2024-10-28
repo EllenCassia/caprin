@@ -10,5 +10,5 @@ import java.util.Optional;
 public interface ContaRepository extends JpaRepository<Conta, Long> {
 
     Optional<Conta> findByEmail(String email);
-    Optional<Conta> findByCPF(String CPF);
+    Optional<Conta> findByCpf(String cpf);
 }
