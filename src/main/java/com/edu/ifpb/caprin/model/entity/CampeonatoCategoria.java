@@ -1,4 +1,4 @@
-package com.edu.ifpb.caprin.model;
+package com.edu.ifpb.caprin.model.entity;
 
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;

@@ -1,6 +1,6 @@
-package com.edu.ifpb.caprin.model;
+package com.edu.ifpb.caprin.model.entity;
 
-import com.edu.ifpb.caprin.model.Enum.ContaTipo;
+import com.edu.ifpb.caprin.model.entity.Enum.ContaTipo;
 
 import jakarta.persistence.*;
 import lombok.Data;

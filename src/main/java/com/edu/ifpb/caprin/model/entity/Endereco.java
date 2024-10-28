@@ -1,13 +1,8 @@
-package com.edu.ifpb.caprin.model;
+package com.edu.ifpb.caprin.model.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Data;
 
-import org.springframework.data.annotation.Id;
 
 @Entity
 @Data

@@ -1,4 +1,4 @@
-package com.edu.ifpb.caprin.model;
+package com.edu.ifpb.caprin.model.entity;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.CascadeType;

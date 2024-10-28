@@ -1,8 +1,10 @@
-package com.edu.ifpb.caprin.model;
+package com.edu.ifpb.caprin.model.entity;
 
 import jakarta.persistence.*;
 import java.util.Date;
-import com.edu.ifpb.caprin.model.Enum.InscricaoStatus;
+
+import com.edu.ifpb.caprin.model.entity.Enum.InscricaoStatus;
+
 import lombok.Data;
 import io.swagger.v3.oas.annotations.media.Schema;
 

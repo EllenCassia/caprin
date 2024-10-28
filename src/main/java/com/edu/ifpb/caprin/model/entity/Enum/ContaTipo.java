@@ -1,4 +1,4 @@
-package com.edu.ifpb.caprin.model.Enum;
+package com.edu.ifpb.caprin.model.entity.Enum;
 
 public enum ContaTipo {
 
