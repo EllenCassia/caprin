@@ -1,10 +1,12 @@
 package com.edu.ifpb.caprin.model;
 
 import jakarta.persistence.*;
+import lombok.Data;
 
 import java.util.Date;
 
 @Entity
+@Data
 public class Pagamento {
 
     @Id
@@ -20,5 +22,4 @@ public class Pagamento {
 
     private String estado; // Ex: "PENDENTE", "CONFIRMADO", "CANCELADO"
 
-    // Getters e Setters
 }
