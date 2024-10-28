@@ -15,7 +15,7 @@ public class Conta {
     private Long id;
 
     @Enumerated
-    private ContaTipo tipo; // ADMIN, ORGANIZADOR, EXPOSITOR
+    private ContaTipo tipo; // ADMIN, 0 ORGANIZADOR, 1  EXPOSITOR, 2
 
     @Column(unique = true)
     private String email;

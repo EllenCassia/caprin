@@ -2,18 +2,23 @@ package com.edu.ifpb.caprin.model.entity.Enum;
 
 public enum ContaTipo {
 
-    ADMIN("ADMIN"),
-    ORGANIZADOR("ORGANIZADOR"),
-    EXPOSITOR("EXPOSITOR");
+    ADMIN("ADMIN", 0),
+    ORGANIZADOR("ORGANIZADOR", 1),
+    EXPOSITOR("EXPOSITOR", 2);
 
-    private final String tipo;
+    private String label;
+    private int posicao;
 
-    ContaTipo(String tipo) {
-        this.tipo = tipo;
+    ContaTipo(String label, int posicao) {
+        this.label = label;
+        this.posicao = posicao;
     }
 
-    public String getTipo() {
-        return tipo;
+    public String getLabel() {
+        return label;
     }
-    
+
+    public int getPosicao() {
+        return posicao;
+    }
 }
