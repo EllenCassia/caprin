@@ -2,6 +2,7 @@ package com.edu.ifpb.caprin.model;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import java.util.List;
 
 @Entity
 @Data
@@ -24,5 +25,8 @@ public class Expositor {
     @OneToOne
     @JoinColumn(name = "conta_id")
     private Conta conta;
+
+    @OneToMany(mappedBy = "expositor", cascade = CascadeType.ALL)
+    private List<Inscricao> inscricoes;
 
 }
