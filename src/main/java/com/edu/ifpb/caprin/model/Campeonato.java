@@ -34,5 +34,8 @@ public class Campeonato {
     @OneToMany(mappedBy = "campeonato", cascade = CascadeType.ALL)
     @Schema(description = "Categorias associadas ao campeonato")
     private List<CampeonatoCategoria> categorias;
+
+    @OneToMany(mappedBy = "campeonato", cascade = CascadeType.ALL)
+    private List<Exposicao> exposicoes;
     
 }
