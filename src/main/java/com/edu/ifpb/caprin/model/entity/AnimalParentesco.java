@@ -10,6 +10,10 @@ import jakarta.persistence.*;
 public class AnimalParentesco {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Id
     private String registro;
 
     @ManyToOne
@@ -18,11 +22,11 @@ public class AnimalParentesco {
 
     private String nome;
 
-    @ManyToOne
-    @JoinColumn(name = "pai_id", nullable = true)
-    private Animal pai;
+    // @ManyToOne
+    // @JoinColumn(name = "pai_id", nullable = true)
+    // private Animal pai;
 
-    @ManyToOne
-    @JoinColumn(name = "mae_id", nullable = true)
-    private Animal mae;
+    // @ManyToOne
+    // @JoinColumn(name = "mae_id", nullable = true)
+    // private Animal mae;
 }

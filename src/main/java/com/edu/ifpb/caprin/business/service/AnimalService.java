@@ -10,7 +10,7 @@ import com.edu.ifpb.caprin.model.entity.Animal;
 @Service
 public interface AnimalService {
 
-    public abstract Animal criarAnimal(Animal animal);
+    public abstract Animal criarAnimal(Animal animal); 
 
     public abstract Animal atualizarAnimal(Long id, Animal novosDados);
 

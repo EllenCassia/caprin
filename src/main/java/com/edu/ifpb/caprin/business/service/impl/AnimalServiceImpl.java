@@ -17,15 +17,18 @@ public class AnimalServiceImpl implements AnimalService {
 
     @Autowired
     private AnimalRepository animalRepository;
-
+    
     // Método para criar um animal aplicando todas as validações de negócio
-
+    
+    
     public Animal criarAnimal(Animal animal) {
+    
         validarRegistroUnico(animal);
         definirRegistro(animal);
-        // definirClassificacao(animal);
         validarInconsistencias(animal);
-        return animalRepository.save(animal);
+        Animal animalSalvo = animalRepository.save(animal); // Salva o animal
+        return animalSalvo; // Converte e retorna AnimalResposta
+    
     }
 
     // Atualizar dados do animal existente
@@ -116,6 +119,7 @@ public class AnimalServiceImpl implements AnimalService {
     // Atualiza os dados do animal, exceto o ID
 
     private void atualizarDadosAnimal(Animal existente, Animal novosDados) {
+        
         existente.setIdSiscapri(novosDados.getIdSiscapri());
         existente.setDataExtracaoSiscapri(novosDados.getDataExtracaoSiscapri());
         existente.setDataNascimento(novosDados.getDataNascimento());
@@ -131,5 +135,7 @@ public class AnimalServiceImpl implements AnimalService {
         existente.setAfixo(novosDados.getAfixo());
         existente.setSituacao(novosDados.getSituacao());
         existente.setInconsistencia(novosDados.getInconsistencia());
+
     }
+
 }

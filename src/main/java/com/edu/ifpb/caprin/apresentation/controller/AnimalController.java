@@ -1,10 +1,13 @@
 package com.edu.ifpb.caprin.apresentation.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.edu.ifpb.caprin.business.service.AnimalService;
+import com.edu.ifpb.caprin.business.service.conversion.AnimalConversion;
+import com.edu.ifpb.caprin.model.dto.AnimalResposta;
 import com.edu.ifpb.caprin.model.entity.Animal;
 
 import java.util.List;
@@ -17,11 +20,11 @@ public class AnimalController {
     private AnimalService animalService;
 
     @PostMapping
-    public ResponseEntity<Animal> criarAnimal(@RequestBody Animal animal) {
-        Animal novoAnimal = animalService.criarAnimal(animal);
-        return ResponseEntity.ok(novoAnimal);
+    public ResponseEntity<AnimalResposta> criarAnimal(@RequestBody Animal animal) {
+        Animal resposta = animalService.criarAnimal(animal); 
+        return new ResponseEntity<>(AnimalConversion.converterParaResposta(resposta), HttpStatus.CREATED);
     }
-
+    
     @PutMapping("/{id}")
     public ResponseEntity<Animal> atualizarAnimal(@PathVariable Long id, @RequestBody Animal novosDados) {
         Animal animalAtualizado = animalService.atualizarAnimal(id, novosDados);
@@ -45,5 +48,6 @@ public class AnimalController {
         animalService.excluirAnimal(id);
         return ResponseEntity.noContent().build();
     }
+
 }
 

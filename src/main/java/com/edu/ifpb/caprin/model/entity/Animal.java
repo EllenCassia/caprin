@@ -5,7 +5,6 @@ import lombok.Data;
 import jakarta.persistence.*;
 import java.util.Date;
 
-import java.util.List;
 @Data
 @Entity
 @Table(name = "TB_ANIMAL")
@@ -68,14 +67,14 @@ public class Animal {
 
     // Relacionamento com a entidade Parentesco
     
-    @OneToMany(mappedBy = "pai")
-    private List<AnimalParentesco> filhospai;
+    // @OneToMany(mappedBy = "pai")
+    // private List<AnimalParentesco> filhospai;
 
-    @OneToMany(mappedBy = "mae")
-    private List<AnimalParentesco> filhosmae;
+    // @OneToMany(mappedBy = "mae")
+    // private List<AnimalParentesco> filhosmae;
 
-    @OneToMany(mappedBy = "animal", cascade = CascadeType.ALL)
-    private List<Inscricao> inscricoes;
+    // @OneToMany(mappedBy = "animal", cascade = CascadeType.ALL)
+    // private List<Inscricao> inscricoes;
     
     // Método para calcular o registro (TOD + TOE)
     public String getRegistro() {

@@ -1,7 +1,6 @@
 package com.edu.ifpb.caprin.apresentation.controller;
 
 import com.edu.ifpb.caprin.business.service.EnderecoService;
-import com.edu.ifpb.caprin.business.service.impl.EnderecoServiceImpl;
 import com.edu.ifpb.caprin.model.entity.Endereco;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
