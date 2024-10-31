@@ -1,89 +1,67 @@
-// package com.edu.ifpb.caprin.business.service.impl;
-
-// import com.edu.ifpb.caprin.business.service.ContaService;
-// // import com.edu.ifpb.caprin.business.service.exception.CpfAlreadyExistsException;
-// // import com.edu.ifpb.caprin.business.service.exception.EmailAlreadyExistsException;
-// import com.edu.ifpb.caprin.business.service.exception.NoSuchElementFoundException;
-// import com.edu.ifpb.caprin.model.entity.Conta;
-// import com.edu.ifpb.caprin.model.repository.ContaRepository;
-
-// import org.springframework.beans.factory.annotation.Autowired;
-// // import org.springframework.security.crypto.password.PasswordEncoder;
-// import org.springframework.stereotype.Service;
+package com.edu.ifpb.caprin.business.service.impl;
 
 
-// @Service
-// public class ContaServiceImpl implements ContaService {
+import com.edu.ifpb.caprin.business.service.ContaService;
+import com.edu.ifpb.caprin.model.entity.Conta;
+import com.edu.ifpb.caprin.model.repository.ContaRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-//     @Autowired
-//     private ContaRepository contaRepository; // Repositório para manipulação de dados
+import java.util.List;
+import java.util.Optional;
 
-//     @Autowired
-//     // private PasswordEncoder passwordEncoder; // Para criptografar senhas
+@Service
+public class ContaServiceImpl implements ContaService {
 
-//     // @Override
-//     // public Conta create(Conta conta) {
-//     //     // // Valida se o e-mail já está cadastrado
-//     //     // if (contaRepository.findByEmail(conta.getEmail()).isPresent()) {
-//     //     //     throw new EmailAlreadyExistsException("E-mail já cadastrado: " + conta.getEmail());
-//     //     // }
+    private final ContaRepository contaRepository;
 
-//     //     // // Valida se o CPF já está cadastrado
-//     //     // if (contaRepository.findByCpf(conta.getCpf()).isPresent()) {
-//     //     //     throw new CpfAlreadyExistsException("CPF já cadastrado: " + conta.getCpf());
-//     //     // }
+    @Autowired
+    public ContaServiceImpl(ContaRepository contaRepository) {
+        this.contaRepository = contaRepository;
+    }
 
-//     //     // // Criptografa a senha antes de salvar
-//     //     // conta.setSenha(passwordEncoder.encode(conta.getSenha()));
+    @Override
+    public Conta salvarConta(Conta conta) {
+        return contaRepository.save(conta);
+    }
 
-//     //     // Salva a nova conta
-//     //     return contaRepository.save(conta);
-//     // }
+    @Override
+    public Optional<Conta> buscarPorId(Long id) {
+        return contaRepository.findById(id);
+    }
 
-//     @Override
-//     public Conta update(Long id, Conta novosDados) {
-//         // Verifica se a conta existe
-//         Conta contaExistente = findById(id);
+    @Override
+    public Optional<Conta> buscarPorEmail(String email) {
+        return contaRepository.findByEmail(email);
+    }
 
-//         // // Valida se o novo e-mail já está cadastrado (exceto para o próprio e-mail da conta existente)
-//         // if (!novosDados.getEmail().equals(contaExistente.getEmail()) &&
-//         //     contaRepository.findByEmail(novosDados.getEmail()).isPresent()) {
-//         //     throw new EmailAlreadyExistsException("E-mail já cadastrado: " + novosDados.getEmail());
-//         // }
+    @Override
+    public Optional<Conta> buscarPorCpf(String cpf) {
+        return contaRepository.findByCpf(cpf);
+    }
 
-//         // // Valida se o novo CPF já está cadastrado (exceto para o próprio CPF da conta existente)
-//         // if (!novosDados.getCpf().equals(contaExistente.getCpf()) &&
-//         //     contaRepository.findByCpf(novosDados.getCpf()).isPresent()) {
-//         //     throw new CpfAlreadyExistsException("CPF já cadastrado: " + novosDados.getCpf());
-//         // }
+    @Override
+    public List<Conta> buscarTodasContas() {
+        return contaRepository.findAll();
+    }
 
-//         // // Atualiza os dados da conta existente
-//         // contaExistente.setNome(novosDados.getNome());
-//         // contaExistente.setEmail(novosDados.getEmail());
-//         // contaExistente.setCpf(novosDados.getCpf());
-        
-//         // // Se a senha foi alterada, criptografa a nova senha
-//         // if (novosDados.getSenha() != null && !novosDados.getSenha().isEmpty()) {
-//         //     contaExistente.setSenha(passwordEncoder.encode(novosDados.getSenha()));
-//         // }
+    @Override
+    public Conta atualizarConta(Long id, Conta conta) {
+        if (contaRepository.existsById(id)) {
+            conta.setId(id);
+            return contaRepository.save(conta);
+        } else {
+            throw new RuntimeException("Conta não encontrada para o ID fornecido");
+        }
+    }
 
-//         // Salva as alterações
-//         return contaRepository.save(contaExistente);
-//     }
-
-//     @Override
-//     public Conta findById(Long id) {
-//         // Busca a conta pelo ID e verifica se existe
-//         return contaRepository.findById(id).orElseThrow(() ->
-//                 new NoSuchElementFoundException("Conta não encontrada com ID: " + id));
-//     }
-
-//     @Override
-//     public void delete(Long id) {
-//         // Verifica se a conta existe antes de excluir
-//         Conta conta = findById(id);
-//         contaRepository.delete(conta);
-//     }
-
-// }
+    @Override
+    public void deletarConta(Long id) {
+        if (contaRepository.existsById(id)) {
+            contaRepository.deleteById(id);
+        } else {
+            throw new RuntimeException("Conta não encontrada para o ID fornecido");
+        }
+    }
+}
 
