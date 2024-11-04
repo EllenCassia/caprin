@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.Data;
 import java.util.List;
 
+import com.edu.ifpb.caprin.model.entity.conta.Conta;
+
 @Entity
 @Data
 @Table(name = "TB_EXPOSITOR")
