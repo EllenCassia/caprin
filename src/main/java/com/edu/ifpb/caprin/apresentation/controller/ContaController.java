@@ -1,7 +1,7 @@
 package com.edu.ifpb.caprin.apresentation.controller;
 
 import com.edu.ifpb.caprin.business.service.ContaService;
-import com.edu.ifpb.caprin.model.entity.Conta;
+import com.edu.ifpb.caprin.model.entity.conta.Conta;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

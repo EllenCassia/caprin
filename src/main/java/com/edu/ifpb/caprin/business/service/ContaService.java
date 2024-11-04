@@ -1,6 +1,8 @@
 package com.edu.ifpb.caprin.business.service;
 
-import com.edu.ifpb.caprin.model.entity.Conta;
+
+import com.edu.ifpb.caprin.model.entity.conta.Conta;
+
 import java.util.List;
 import java.util.Optional;
 

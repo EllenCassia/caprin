@@ -2,8 +2,8 @@ package com.edu.ifpb.caprin.business.service.impl;
 
 
 import com.edu.ifpb.caprin.business.service.ContaService;
-import com.edu.ifpb.caprin.model.entity.Conta;
-import com.edu.ifpb.caprin.model.repository.ContaRepository;
+import com.edu.ifpb.caprin.model.entity.conta.Conta;
+import com.edu.ifpb.caprin.model.repository.conta.ContaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
