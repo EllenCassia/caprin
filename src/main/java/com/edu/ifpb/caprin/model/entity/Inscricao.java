@@ -38,11 +38,11 @@ public class Inscricao {
     @JoinColumn(name = "expositor_id", nullable = false)
     private Expositor expositor;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "pagamento_id")
-    private Pagamento pagamento;
+    // @OneToOne(cascade = CascadeType.ALL)
+    // @JoinColumn(name = "pagamento_id")
+    // private Pagamento pagamento;
 
-    public boolean isEfetivada() {
-        return pagamento != null && pagamento.getDataConfirmacao() != null;
-    }
+    // public boolean isEfetivada() {
+    //     return pagamento != null && pagamento.getDataConfirmacao() != null;
+    // }
 }

@@ -1,7 +1,7 @@
 package com.edu.ifpb.caprin.business.service.conversion;
 
-import com.edu.ifpb.caprin.model.dto.AnimalResposta;
-import com.edu.ifpb.caprin.model.entity.Animal;
+import com.edu.ifpb.caprin.model.dto.animal.AnimalResposta;
+import com.edu.ifpb.caprin.model.entity.animal.Animal;
 
 public class AnimalConversion {
 

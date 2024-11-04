@@ -6,6 +6,8 @@ import lombok.Data;
 import java.util.Date;
 import java.util.List;
 
+import com.edu.ifpb.caprin.model.entity.campeonato.Campeonato;
+
 @Entity
 @Data
 @Schema(description = "Representa uma exposição")
