@@ -72,7 +72,7 @@ public class ConfiguracaoWeb {
                         "/swagger-ui/**", 
                         "/swagger-ui.html"
                 ).permitAll()
-                .requestMatchers(HttpMethod.POST, "/endereco").permitAll()
+                .requestMatchers(HttpMethod.POST, "/endereco", "/animal").permitAll()
                 .anyRequest().authenticated());
 
         http.

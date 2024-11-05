@@ -1,53 +1,63 @@
-// package com.edu.ifpb.caprin.apresentation.controller.animal;
+ package com.edu.ifpb.caprin.apresentation.controller.animal;
+ import com.edu.ifpb.caprin.apresentation.compartilhado.ApiEndpoints;
+ import com.edu.ifpb.caprin.apresentation.compartilhado.ControladorCrud;
+ import com.edu.ifpb.caprin.apresentation.compartilhado.resposta.Resposta;
+ import com.edu.ifpb.caprin.apresentation.endpoints.AnimalEndpoints;
+ import com.edu.ifpb.caprin.business.service.animal.AnimalService;
+ import com.edu.ifpb.caprin.model.dto.animal.AnimalRequisicao;
+ import com.edu.ifpb.caprin.model.entity.animal.Animal;
+ import lombok.AllArgsConstructor;
+ import org.springframework.data.domain.Page;
+ import org.springframework.security.access.prepost.PreAuthorize;
+ import org.springframework.web.bind.annotation.PathVariable;
+ import org.springframework.web.bind.annotation.RequestMapping;
+ import org.springframework.web.bind.annotation.RestController;
 
-// import org.springframework.beans.factory.annotation.Autowired;
-// import org.springframework.http.HttpStatus;
-// import org.springframework.http.ResponseEntity;
-// import org.springframework.web.bind.annotation.*;
+ import java.time.LocalDateTime;
+ import java.util.List;
 
-// import com.edu.ifpb.caprin.business.service.animal.AnimalService;
-// import com.edu.ifpb.caprin.business.service.conversion.AnimalConversion;
-// import com.edu.ifpb.caprin.model.dto.animal.AnimalResposta;
-// import com.edu.ifpb.caprin.model.entity.animal.Animal;
+ @RestController
+ @RequestMapping(AnimalEndpoints.PREFIXO)
+ @AllArgsConstructor
+ public class AnimalController extends ControladorCrud<Animal, Long, AnimalRequisicao, Resposta<Animal>> {
 
-// import java.util.List;
+     private final AnimalService animalServico;
 
-// @RestController
-// @RequestMapping("/animal")
-// public class AnimalController {
+     @Override
+     public Page<Resposta<Animal>> findAll(int page, int linesPerPage, String direction, String orderBy) {
+         return null;
+     }
 
-//     @Autowired
-//     private AnimalService animalService;
+     @PreAuthorize("hasAnyAuthority('ADMIN')")
+     @Override
+     public Resposta<Animal> findById(@PathVariable Long id) {
+         Animal animal = animalServico.buscarPorID(id);
+         return criarAnimalResposta(ApiEndpoints.ID, animal, null);
+     }
 
-//     @PostMapping
-//     public ResponseEntity<AnimalResposta> criarAnimal(@RequestBody Animal animal) {
-//         Animal resposta = animalService.criarAnimal(animal); 
-//         return new ResponseEntity<>(AnimalConversion.converterParaResposta(resposta), HttpStatus.CREATED);
-//     }
-    
-//     @PutMapping("/{id}")
-//     public ResponseEntity<Animal> atualizarAnimal(@PathVariable Long id, @RequestBody Animal novosDados) {
-//         Animal animalAtualizado = animalService.atualizarAnimal(id, novosDados);
-//         return ResponseEntity.ok(animalAtualizado);
-//     }
+     @Override
+     public Resposta<Animal> register(AnimalRequisicao request) {
+         Animal animal = new Animal();
+         animal.setDhCriacao(LocalDateTime.now());
+         animal = animalServico.register(animal);
+         return criarAnimalResposta(AnimalEndpoints.PREFIXO, animal,null);
+     }
 
-//     @GetMapping("/{id}")
-//     public ResponseEntity<Animal> buscarPorId(@PathVariable Long id) {
-//         return animalService.buscarPorId(id)
-//                 .map(ResponseEntity::ok)
-//                 .orElse(ResponseEntity.notFound().build());
-//     }
+     @Override
+     public Resposta<Animal> update(Long id, AnimalRequisicao request) {
+         return null;
+     }
 
-//     @GetMapping
-//     public List<Animal> listarTodos() {
-//         return animalService.listarTodos();
-//     }
+     @Override
+     public Resposta<?> delete(Long id) {
+         return null;
+     }
 
-//     @DeleteMapping("/{id}")
-//     public ResponseEntity<Void> excluirAnimal(@PathVariable Long id) {
-//         animalService.excluirAnimal(id);
-//         return ResponseEntity.noContent().build();
-//     }
-
-// }
-
+     private Resposta<Animal> criarAnimalResposta(String endpoint, Animal conteudo, List<String> erros) {
+         Resposta<Animal> resposta = new Resposta<>();
+         resposta.setEndpoint(endpoint);
+         resposta.setConteudo(conteudo);
+         resposta.setErros(erros);
+         return resposta;
+     }
+ }

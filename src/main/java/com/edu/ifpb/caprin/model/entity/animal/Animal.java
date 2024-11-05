@@ -3,6 +3,8 @@ package com.edu.ifpb.caprin.model.entity.animal;
 import lombok.Data;
 
 import jakarta.persistence.*;
+
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -17,7 +19,9 @@ public class Animal extends DominioModelo<Long>{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id; 
+    private Long id;
+
+    private Long idExterno;
 
     @Column(name = "id_siscapri", nullable = false)
     private Long idSiscapri;
@@ -28,7 +32,7 @@ public class Animal extends DominioModelo<Long>{
 
     @Column(name = "data_nascimento")
     @Temporal(TemporalType.DATE)
-    private Date dataNascimento;
+    private LocalDate dataNascimento;
 
     @Column(name = "sexo", nullable = false)
     private char sexo;
@@ -72,11 +76,11 @@ public class Animal extends DominioModelo<Long>{
 
     // Relacionamento com a entidade Parentesco
     
-    @OneToMany(mappedBy = "pai")
-    private List<AnimalParentesco> filhospai;
-
-    @OneToMany(mappedBy = "mae")
-    private List<AnimalParentesco> filhosmae;
+//    @OneToMany(mappedBy = "pai")
+//    private List<AnimalParentesco> filhospai;
+//
+//    @OneToMany(mappedBy = "mae")
+//    private List<AnimalParentesco> filhosmae;
 
     // @OneToMany(mappedBy = "animal", cascade = CascadeType.ALL)
     // private List<Inscricao> inscricoes;
