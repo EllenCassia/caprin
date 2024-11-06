@@ -10,6 +10,8 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 @MappedSuperclass
 @Getter
 @Setter
@@ -19,6 +21,7 @@ public abstract class DominioModelo<I extends Serializable> implements Serializa
 
     @NotNull
     @Column(name = "dhcriacao", nullable = false)
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
     private LocalDateTime dhCriacao;
 
     public abstract I getId();
@@ -47,7 +50,5 @@ public abstract class DominioModelo<I extends Serializable> implements Serializa
         DominioModelo<I> other = (DominioModelo<I>) obj;
         return Objects.equals(getId(), other.getId()) && Objects.equals(getDhCriacao(), other.getDhCriacao());
     }
-
-
 
 }

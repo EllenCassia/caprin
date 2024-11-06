@@ -12,6 +12,7 @@ import com.edu.ifpb.caprin.model.dto.login.LoginRequisicao;
 import com.edu.ifpb.caprin.model.dto.token.TokenResposta;
 import com.edu.ifpb.caprin.model.utils.TokenJwtUtils;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 
 import org.springframework.web.bind.annotation.*;
@@ -20,6 +21,7 @@ import static org.springframework.http.HttpStatus.OK;
 @RestController
 @RequestMapping(LoginEndpoints.PREFIXO)
 @AllArgsConstructor
+@Tag(name = "Login", description = "API de login")
 public class LoginController {
 
     private final AutenticadorService autenticador;

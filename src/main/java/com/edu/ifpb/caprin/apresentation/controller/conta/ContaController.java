@@ -68,24 +68,23 @@ public class ContaController extends ControladorCrud<Conta, Long, ContaRequisica
         conta.setContaTipo(codigo);
         conta.setDhCriacao(LocalDateTime.now());
         conta = contaServico.register(conta);
-
         return criarContaResposta(ContaEndpoints.PREFIXO, conta, null);
     }
 
-    // @PreAuthorize("hasAnyAuthority('ADMIN', 'ORGANIZADOR', 'EXPOSITOR')")
-    // @Override
-    // public Resposta<Conta> update(@PathVariable Long id, @RequestBody ContaRequisicao request) {
-    //     Conta contaAtualizada = contaServico.update(id, request);
-    //     return criarContaResposta(ApiEndpoints.ID, contaAtualizada, null);
-    // }
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'ORGANIZADOR', 'EXPOSITOR')")
+    @Override
+    public Resposta<Conta> update(@PathVariable Long id, @RequestBody ContaRequisicao request) {
+        Conta contaAtualizada = new Conta();
+        BeanUtils.copyProperties(request, contaAtualizada);
+        contaServico.update(id, contaAtualizada);
+        return criarContaResposta(ApiEndpoints.ID, contaAtualizada, null);
+    }
 
     @PreAuthorize("hasAnyAuthority('ADMIN')")
     @Override
-    public Resposta<?> delete(@PathVariable Long id) {
+    public Resposta<Conta> delete(@PathVariable Long id) {
         contaServico.deleteById(id);
-        return Resposta.builder()
-                .endpoint(ApiEndpoints.ID)
-                .build();
+        return criarContaResposta(ApiEndpoints.ID, null, null);
     }
 
     private Resposta<Conta> criarContaResposta(String endpoint, Conta conteudo, List<String> erros) {
@@ -96,10 +95,5 @@ public class ContaController extends ControladorCrud<Conta, Long, ContaRequisica
         return resposta;
     }
 
-    @Override
-    public Resposta<Conta> update(Long id, ContaRequisicao request) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'update'");
-    }
 
 }

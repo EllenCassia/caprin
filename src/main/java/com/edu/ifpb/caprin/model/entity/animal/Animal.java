@@ -1,92 +1,90 @@
 package com.edu.ifpb.caprin.model.entity.animal;
 
-import lombok.Data;
-
+import io.hypersistence.utils.hibernate.type.json.JsonType;
 import jakarta.persistence.*;
-import java.util.Date;
-import java.util.List;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.hibernate.annotations.Type;
 
 import com.edu.ifpb.caprin.model.compartilhado.modelo.DominioModelo;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
+import java.time.LocalDate;
+import java.util.Objects;
 
-@Data
 @Entity
-@Table(name = "TB_ANIMAL")
+@Getter
+@Setter
+@Table(name = "TE_ANIMAL")
+@AllArgsConstructor
+@NoArgsConstructor
+public class Animal extends DominioModelo<Long> {
 
-public class Animal extends DominioModelo<Long>{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id; 
+    private Long id;
 
-    @Column(name = "id_siscapri", nullable = false)
-    private Long idSiscapri;
+    private Long idExterno;
 
-    @Column(name = "data_extracao_siscapri")
-    @Temporal(TemporalType.DATE)
-    private Date dataExtracaoSiscapri;
+    @Type(JsonType.class)
+    @Column(columnDefinition = "json")
+    private AnimalParentesco pai;
 
-    @Column(name = "data_nascimento")
-    @Temporal(TemporalType.DATE)
-    private Date dataNascimento;
+    @Type(JsonType.class)
+    @Column(columnDefinition = "json")
+    private AnimalParentesco mae;
 
-    @Column(name = "sexo", nullable = false)
-    private char sexo;
-
-    @Column(name = "dna", nullable = false)
-    private boolean DNA;
-
-    @Column(name = "tod", nullable = false)
-    private String TOD;
-
-    @Column(name = "toe", nullable = false)
-    private String TOE;
-
-    // Campo calculado que concatena TOD e TOE
-    @Transient
     private String registro;
-
-    @Column(name = "nome", nullable = false)
     private String nome;
-
-    @Column(name = "raca", nullable = false)
-    private String raca;
-
-    @Column(name = "pelagem", nullable = false)
-    private String pelagem;
-
-    @Column(name = "criador", nullable = false)
+    private String situacao;
+    private boolean DNA;
+    private String TOD;
+    private String TOE;
     private String criador;
-
-    @Column(name = "proprietario", nullable = false)
     private String proprietario;
-
-    @Column(name = "afixo")
     private String afixo;
 
-    @Column(name = "situacao")
-    private String situacao;
-
-    @Column(name = "inconsistencia")
-    private String inconsistencia;
-
-    // Relacionamento com a entidade Parentesco
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private LocalDate dataNascimento;
     
-    @OneToMany(mappedBy = "pai")
-    private List<AnimalParentesco> filhospai;
+    private char sexo;
+    private String categoria;
+    private String raca;
 
-    @OneToMany(mappedBy = "mae")
-    private List<AnimalParentesco> filhosmae;
-
-    // @OneToMany(mappedBy = "animal", cascade = CascadeType.ALL)
-    // private List<Inscricao> inscricoes;
-
-    // private AnimalParentesco pai;
-
-    // private AnimalParentesco mae;
-    
-    // Método para calcular o registro (TOD + TOE)
-    public String getRegistro() {
-        return this.TOD + this.TOE;
+    @Override
+    public Long getId() {
+        return this.id;
     }
+
+    public void setRegistro(String TOD, String TOE) {
+        this.registro = TOD + TOE;
+    }
+
+    @Override
+    public String toString() {
+        return super.toString();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Animal animal = (Animal) o;
+
+        if (DNA != animal.DNA) return false;
+        if (sexo != animal.sexo) return false;
+        if (!Objects.equals(registro, animal.registro)) return false;
+        if (!Objects.equals(nome, animal.nome)) return false;
+        if (!Objects.equals(TOD, animal.TOD)) return false;
+        if (!Objects.equals(TOE, animal.TOE)) return false;
+        if (!Objects.equals(criador, animal.criador)) return false;
+        if (!Objects.equals(categoria, animal.categoria)) return false;
+        if (!Objects.equals(dataNascimento, animal.dataNascimento)) return false;
+        return Objects.equals(raca, animal.raca);
+    }
+
 }

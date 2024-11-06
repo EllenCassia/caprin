@@ -3,12 +3,15 @@ package com.edu.ifpb.caprin.apresentation.controller.conta;
 import com.edu.ifpb.caprin.business.service.conta.EnderecoService;
 import com.edu.ifpb.caprin.model.entity.conta.Endereco;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/endereco")
+@Tag(name = "Endereço", description = "APIs para manipulação de endereços")
 public class EnderecoController {
 
     @Autowired

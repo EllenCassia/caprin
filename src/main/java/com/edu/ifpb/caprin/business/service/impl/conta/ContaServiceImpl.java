@@ -6,6 +6,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.edu.ifpb.caprin.business.service.conta.ContaConfirmacaoService;
 import com.edu.ifpb.caprin.business.service.conta.ContaService;
 import com.edu.ifpb.caprin.business.service.conta.EnderecoService;
 import com.edu.ifpb.caprin.business.service.exception.CpfAlreadyExistsException;
@@ -13,6 +14,7 @@ import com.edu.ifpb.caprin.business.service.exception.EmailAlreadyExistsExceptio
 import com.edu.ifpb.caprin.business.service.exception.NoSuchElementFoundException;
 import com.edu.ifpb.caprin.business.service.exception.PasswordNotMatchingException;
 import com.edu.ifpb.caprin.model.compartilhado.repositorio.DominioRepositorio;
+import com.edu.ifpb.caprin.model.dto.conta.ContaRequisicao;
 import com.edu.ifpb.caprin.model.entity.conta.Conta;
 import com.edu.ifpb.caprin.model.entity.conta.Endereco;
 import com.edu.ifpb.caprin.model.repository.conta.ContaRepository;
@@ -33,7 +35,7 @@ public class ContaServiceImpl implements ContaService {
 
     private final UrlUtils urlUtils;
 
-    // private final ContaConfirmacaoServico confirmacaoServico;
+    private final ContaConfirmacaoService confirmacaoServico;
 
     private final EnderecoService enderecoServico;
 
@@ -57,13 +59,13 @@ public class ContaServiceImpl implements ContaService {
         return contaRepositorio.save(conta);
     }
 
-    // public Conta update(Long id, ContaRequisicao requisicao) {
-    //     verificarEmailExiste(requisicao.getEmail());
-    //     verificarCpfExiste(requisicao.getCpf());
+    public Conta update(Long id, ContaRequisicao requisicao) {
+        verificarEmailExiste(requisicao.getEmail());
+        verificarCpfExiste(requisicao.getCpf());
 
-    //     Conta contaAtualizada = new Conta(requisicao);
-    //     return ContaServico.super.update(id, contaAtualizada);
-    // }
+        Conta contaAtualizada = new Conta(requisicao);
+        return ContaService.super.update(id, contaAtualizada);
+    }
 
     @Override
     @Transactional
@@ -77,7 +79,7 @@ public class ContaServiceImpl implements ContaService {
         conta.setSenha(senhaCriptografada);
         conta.setEndereco(endereco);
         Conta contaNova = contaRepositorio.save(conta);
-        // enviarEmailConfirmacao(contaNova);
+        enviarEmailConfirmacao(contaNova);
         return contaNova;
     }
 
@@ -86,25 +88,25 @@ public class ContaServiceImpl implements ContaService {
         return entidade.orElseThrow(() -> new NoSuchElementFoundException(getDominioClasse() + " NÃO ENCONTRADO e-mail=" + email));
     }
 
-    // private void enviarEmailConfirmacao(Conta conta) {
-    //     String token = gerarTokenConfirmacao();
-    //     String url = urlUtils.gerarUrlAtivacaoConta(token);
-    //     salvarConfirmacao(conta, token);
+    private void enviarEmailConfirmacao(Conta conta) {
+        String token = gerarTokenConfirmacao();
+        String url = urlUtils.gerarUrlAtivacaoConta(token);
+        salvarConfirmacao(conta, token);
 
-    //     int tentativas = emailUtils.getTentativasEnvioAtivacao(conta.getEmail(), url, 1);
-    //     confirmacaoServico.increaseAmountAttempts(conta, tentativas);
-    //     if (tentativas >= 5) {
-    //         deleteById(conta.getId());
-    //     }
-    // }
+        int tentativas = emailUtils.getTentativasEnvioAtivacao(conta.getEmail(), url, 1);
+        confirmacaoServico.increaseAmountAttempts(conta, tentativas);
+        if (tentativas >= 5) {
+            deleteById(conta.getId());
+        }
+    }
 
     private String gerarTokenConfirmacao() {
         return urlUtils.gerarToken();
     }
 
-    // private void salvarConfirmacao(Conta conta, String token) {
-    //     confirmacaoServico.register(conta, token);
-    // }
+    private void salvarConfirmacao(Conta conta, String token) {
+        confirmacaoServico.register(conta, token);
+    }
 
     private void verificarSenhaCorresponde(String senha, String confirmarSenha) {
         if (!senha.equals(confirmarSenha))

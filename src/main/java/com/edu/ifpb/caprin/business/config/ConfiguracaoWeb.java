@@ -72,7 +72,6 @@ public class ConfiguracaoWeb {
                         "/swagger-ui/**", 
                         "/swagger-ui.html"
                 ).permitAll()
-                .requestMatchers(HttpMethod.POST, "/endereco").permitAll()
                 .anyRequest().authenticated());
 
         http.

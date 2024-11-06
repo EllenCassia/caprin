@@ -4,7 +4,6 @@ import lombok.Data;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 @Data
-@Schema(description = "Representa a resposta de um animal")
 public class AnimalResposta {
  
     private String nome;

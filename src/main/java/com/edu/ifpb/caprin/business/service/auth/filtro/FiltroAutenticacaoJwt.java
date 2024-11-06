@@ -34,32 +34,35 @@ public class FiltroAutenticacaoJwt extends OncePerRequestFilter {
             @NonNull HttpServletRequest request,
             @NonNull HttpServletResponse response,
             @NonNull FilterChain filterChain) throws ServletException, IOException {
-
+    
         String token = getToken(request);
-
+        System.out.println("Token extraído: " + token);
+    
         try {
             if (StringUtils.hasText(token) && tokenJwtUtils.validarToken(token)) {
-
                 String email = tokenJwtUtils.getEmail(token);
-
+                System.out.println("Email extraído do token: " + email);
+    
                 var conta = contaRepositorio.findByEmail(email).orElse(null);
-
-                if (Objects.nonNull(conta)) {
-                    var autenticacao = new UsernamePasswordAuthenticationToken(
-                            conta.getEmail(),
-                            conta.getSenha(),
-                            PermissaoServico.converterParaAuthority(conta.getContaTipo())
-                    );
-
-                    autenticacao.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-                    SecurityContextHolder.getContext().setAuthentication(autenticacao);
-                    response.setHeader(HttpHeaders.AUTHORIZATION, request.getHeader(HttpHeaders.AUTHORIZATION));
+                if (conta == null) {
+                    System.out.println("Conta não encontrada para o email: " + email);
+                    return;
                 }
+    
+                var autenticacao = new UsernamePasswordAuthenticationToken(
+                        conta.getEmail(),
+                        conta.getSenha(),
+                        PermissaoServico.converterParaAuthority(conta.getContaTipo())
+                );
+    
+                autenticacao.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                SecurityContextHolder.getContext().setAuthentication(autenticacao);
+                System.out.println("Usuário autenticado: " + conta.getEmail());
+                response.setHeader(HttpHeaders.AUTHORIZATION, request.getHeader(HttpHeaders.AUTHORIZATION));
             }
         } finally {
             filterChain.doFilter(request, response);
         }
-
     }
 
     private String getToken(HttpServletRequest request) {

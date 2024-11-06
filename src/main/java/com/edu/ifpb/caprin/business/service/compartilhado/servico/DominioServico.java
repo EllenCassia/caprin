@@ -124,4 +124,5 @@ public interface DominioServico<M extends DominioModelo<I>, I extends Serializab
     default void deleteAllById(Collection<I> ids) {
         getRepositorio().deleteAllById(ids);
     }
+
 }

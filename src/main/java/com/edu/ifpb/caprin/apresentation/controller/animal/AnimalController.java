@@ -1,53 +1,80 @@
-// package com.edu.ifpb.caprin.apresentation.controller.animal;
+package com.edu.ifpb.caprin.apresentation.controller.animal;
 
-// import org.springframework.beans.factory.annotation.Autowired;
-// import org.springframework.http.HttpStatus;
-// import org.springframework.http.ResponseEntity;
-// import org.springframework.web.bind.annotation.*;
+import lombok.AllArgsConstructor;
 
-// import com.edu.ifpb.caprin.business.service.animal.AnimalService;
-// import com.edu.ifpb.caprin.business.service.conversion.AnimalConversion;
-// import com.edu.ifpb.caprin.model.dto.animal.AnimalResposta;
-// import com.edu.ifpb.caprin.model.entity.animal.Animal;
+import org.springframework.context.annotation.Bean;
+import org.springframework.data.domain.Page;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-// import java.util.List;
+import com.edu.ifpb.caprin.apresentation.compartilhado.ApiEndpoints;
+import com.edu.ifpb.caprin.apresentation.compartilhado.ControladorCrud;
+import com.edu.ifpb.caprin.apresentation.compartilhado.resposta.Resposta;
+import com.edu.ifpb.caprin.business.service.animal.AnimalService;
+import com.edu.ifpb.caprin.model.dto.animal.AnimalRequisicao;
+import com.edu.ifpb.caprin.model.dto.conta.ContaRequisicao;
+import com.edu.ifpb.caprin.model.entity.animal.Animal;
+import com.edu.ifpb.caprin.model.utils.BeanUtils;
 
-// @RestController
-// @RequestMapping("/animal")
-// public class AnimalController {
+import io.swagger.v3.oas.annotations.tags.Tag;
 
-//     @Autowired
-//     private AnimalService animalService;
+import com.edu.ifpb.caprin.apresentation.endpoints.AnimalEndpoints;
 
-//     @PostMapping
-//     public ResponseEntity<AnimalResposta> criarAnimal(@RequestBody Animal animal) {
-//         Animal resposta = animalService.criarAnimal(animal); 
-//         return new ResponseEntity<>(AnimalConversion.converterParaResposta(resposta), HttpStatus.CREATED);
-//     }
-    
-//     @PutMapping("/{id}")
-//     public ResponseEntity<Animal> atualizarAnimal(@PathVariable Long id, @RequestBody Animal novosDados) {
-//         Animal animalAtualizado = animalService.atualizarAnimal(id, novosDados);
-//         return ResponseEntity.ok(animalAtualizado);
-//     }
+import java.time.LocalDateTime;
+import java.util.List;
 
-//     @GetMapping("/{id}")
-//     public ResponseEntity<Animal> buscarPorId(@PathVariable Long id) {
-//         return animalService.buscarPorId(id)
-//                 .map(ResponseEntity::ok)
-//                 .orElse(ResponseEntity.notFound().build());
-//     }
+@RestController
+@RequestMapping(AnimalEndpoints.PREFIXO)
+@AllArgsConstructor
+@Tag(name = "Animal", description = "API de animais")
+public class AnimalController extends ControladorCrud<Animal, Long, AnimalRequisicao, Resposta<Animal>> {
 
-//     @GetMapping
-//     public List<Animal> listarTodos() {
-//         return animalService.listarTodos();
-//     }
+    private final AnimalService animalServico;
 
-//     @DeleteMapping("/{id}")
-//     public ResponseEntity<Void> excluirAnimal(@PathVariable Long id) {
-//         animalService.excluirAnimal(id);
-//         return ResponseEntity.noContent().build();
-//     }
+    @Override
+    public Page<Resposta<Animal>> findAll(int page, int linesPerPage, String direction, String orderBy) {
+        return null;
+    }
 
-// }
+    @PreAuthorize("hasAnyAuthority('ADMIN')")
+    @Override
+    public Resposta<Animal> findById(@PathVariable Long id) {
+        Animal animal = animalServico.buscarPorID(id);
+        return criarResposta(ApiEndpoints.ID, animal, null);
+    }
 
+    @Override
+    public Resposta<Animal> register(AnimalRequisicao request) {
+        Animal animal = new Animal();
+        BeanUtils.copyProperties(request, animal);
+        animal.setDhCriacao(LocalDateTime.now());
+        animal = animalServico.register(animal);
+        return criarResposta(ApiEndpoints.ADICIONAR, animal, null);
+    }
+
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'ORGANIZADOR', 'EXPOSITOR')")
+    @Override
+    public Resposta<Animal> update(@PathVariable Long id, @RequestBody AnimalRequisicao request) {
+        Animal animalAtualizado = new Animal();
+        BeanUtils.copyProperties(request, animalAtualizado);
+        animalAtualizado = animalServico.update(id, animalAtualizado);
+        return criarResposta(ApiEndpoints.ID, animalAtualizado, null);
+    }
+
+    @Override
+    public Resposta<?> delete(Long id) {
+        animalServico.deleteById(id);
+        return criarResposta(ApiEndpoints.ID, null, null);
+    }
+
+    private Resposta<Animal> criarResposta(String endpoint, Animal conteudo, List<String> erros) {
+        Resposta<Animal> resposta = new Resposta<>();
+        resposta.setEndpoint(endpoint);
+        resposta.setConteudo(conteudo);
+        resposta.setErros(erros);
+        return resposta;
+    }
+}

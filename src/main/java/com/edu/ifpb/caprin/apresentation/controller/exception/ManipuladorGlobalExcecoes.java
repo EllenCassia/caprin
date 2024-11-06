@@ -10,10 +10,12 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+import com.edu.ifpb.caprin.apresentation.compartilhado.resposta.Resposta;
 import com.edu.ifpb.caprin.business.service.exception.CpfAlreadyExistsException;
 import com.edu.ifpb.caprin.business.service.exception.EmailAlreadyExistsException;
 import com.edu.ifpb.caprin.business.service.exception.NoSuchElementFoundException;
 import com.edu.ifpb.caprin.business.service.exception.PasswordNotMatchingException;
+import com.edu.ifpb.caprin.business.service.exception.RgAlreadyExistsException;
 import com.edu.ifpb.caprin.business.service.exception.TokenException;
 
 import java.util.List;
@@ -79,6 +81,14 @@ public class ManipuladorGlobalExcecoes {
         return createResponse(endpoint, errors);
     }
 
+    @ExceptionHandler(RgAlreadyExistsException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    @ResponseBody
+    public Resposta<Object> handleRgAlreadyExistsException(
+            RgAlreadyExistsException exception,
+            HttpServletRequest request) {
+        return createResponse(request.getServletPath(), List.of(exception.getMessage()));
+    }
     private Resposta<Object> createResponse(String endpoint, List<String> errors) {
         return Resposta.builder()
                 .endpoint(endpoint)

@@ -1,27 +1,36 @@
 package com.edu.ifpb.caprin.model.entity.conta;
 
+
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
+
 import java.time.LocalDateTime;
 
-// @Data
-// @Entity
-// @Table(name = "TE_CONTA_REDEFINICAO", schema = "CONTA")
-// public class ContaRedefinicao{
+import com.edu.ifpb.caprin.model.compartilhado.modelo.DominioModelo;
 
-//     @Id
-//     @GeneratedValue(strategy = GenerationType.IDENTITY)
-//     private Long id;
+@Entity
+@Getter
+@Setter
+@EqualsAndHashCode(callSuper = false)
+@Table(name = "TE_CONTA_REDEFINICAO")
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+public class ContaRedefinicao extends DominioModelo<Long> {
 
-//     @Column(nullable = false, unique = true)
-//     private String token;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-//     private LocalDateTime dataExpiracao;
+    @Column(nullable = false, unique = true)
+    private String token;
 
-//     private int tentativas;
+    private LocalDateTime dataExpiracao;
 
-//     @OneToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST}, fetch = FetchType.EAGER)
-//     @JoinColumn(name = "ID_CONTA", referencedColumnName = "ID")
-//     private Conta conta;
+    private int tentativas;
 
-// }
+    @OneToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST}, fetch = FetchType.EAGER)
+    @JoinColumn(name = "ID_CONTA", referencedColumnName = "ID")
+    private Conta conta;
+
+}
